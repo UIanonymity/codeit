@@ -1,7 +1,7 @@
 import { getFoods } from '../api';
 import FoodList from './FoodList';
 import { useEffect, useState } from 'react';
-import ReviewForm from './ReviewFrom';
+import ReviewForm from './FoodFrom';
 import SearchBar from './SearchBar';
 
 const LIMIT = 10;
