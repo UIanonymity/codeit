@@ -24,7 +24,7 @@ useEffect(() => {
     if(!value) return;
     const nextPreview = URL.createObjectURL(value);
     setPreview(nextPreview);
-    
+
 /* ObjectURL를 해제하는 코드. 사용자가 업로드 변경하거나 취소하는 경우, 
 이전의 사이드 이펙트를 정리함(메모리 정리) */
     return () => {
