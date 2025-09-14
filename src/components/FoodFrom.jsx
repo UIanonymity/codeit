@@ -1,35 +1,39 @@
 import { useState } from "react";
+import FileInput from './FileInput';
 
 function FoodForm() {
-   const [ title, setTitle ] = useState('');
-   const [calorie, setCalorie] = useState(0);
-   const [content, setContent] = useState('');
+    const [values, setValues] = useState({
+        title: '',
+        calorie: 0,
+        content: '',
+        imgFile: null,
+    });
 
-   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-   };
+    const handleChange = (name, value) => {
+        setValues(prevValues => ({
+      ...prevValues,
+      [name]: name === value ? Number(value) || 0 : value
+    }));
+    }
 
-    const handleCalorieChange = (e) => {
-    const nextCalorie = Number(e.target.value) || 0;
-    setCalorie(nextCalorie);
-   };
-
-   const handleContentChange = (e) => {
-    setContent(e.target.value);
-   };
+   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    handleChange(name, value)
+    
+  };
 
    const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
-        title, calorie, content,
-    });
-   }
+    console.log(values); 
+    };
+   
 
     return( 
-    <form>
-        <input  name="title" value={values.title} onChange={handleTitleChange}></input>
-        <input  name="calorie" value={values.calorie} type="number" onChange={handleCalorieChange} ></input>
-        <input  name="content" value={values.content} onChange={handleContentChange} ></input>
+    <form style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '600px' }}>
+        <input  name="title" value={values.title} onChange={handleInputChange}></input>
+        <input  name="calorie" value={values.calorie} type="number" onChange={handleInputChange} ></input>
+        <input  name="content" value={values.content} onChange={handleInputChange} ></input>
+        <FileInput name="imgFile" value={values.imgFile} onChange={handleChange} />
         <button type="submit" onClick={handleSubmit}>확인</button>
     </form>
     );

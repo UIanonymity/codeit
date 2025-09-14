@@ -1,8 +1,9 @@
 import { getFoods } from '../api';
 import FoodList from './FoodList';
 import { useEffect, useState } from 'react';
-import ReviewForm from './FoodFrom';
+import FoodForm from './FoodFrom';
 import SearchBar from './SearchBar';
+
 
 const LIMIT = 10;
 
@@ -74,9 +75,11 @@ function App() {
       <button onClick={handlecalorieClink}>칼로리순</button>
       </div>
 
-      <SearchBar search={search} setSearch={setSearch} setCursor={setCursor}/>
+      <div>
+        <SearchBar search={search} setSearch={setSearch} setCursor={setCursor}/>
+        </div>
       
-      <ReviewForm /> 
+      <FoodForm /> 
      
       <FoodList items={sortedItems} onDelete={handleDelete} />
     {hasNext && (
