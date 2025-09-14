@@ -1,9 +1,10 @@
 export async function getFoods({
-    order = 'createdAt', 
-    cursor = '', 
-    limit=10
+    order = '',
+  cursor = '',
+  limit = 10,
+  search = '',
 }) { 
-    const query = `?order=${order}&cursor=${cursor}&limit=${limit}`;
+    const query = `?order=${order}&cursor=${cursor}&limit=${limit}&search=${search}`;
     const response = await fetch(
         `https://learn.codeit.kr/1636/foods${query}`
     );
