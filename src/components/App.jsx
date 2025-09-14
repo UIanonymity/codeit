@@ -11,8 +11,8 @@ function App() {
   const [cursor, setCursor] = useState('');
   const [hasNext, setHasNext] = useState(false);
 // 오프셋이 아니라 커서를 사용하고 있어서 오류가 나고 있었음 api,App 파일 로직 맞춰서 수정 
-  const [ isLoding, setIsLoding ] = useState(false);
-
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ LoadingError, setLoadingError ] = useState(null);
   const sortedItems = items.sort((a,b) => b[order] - a[order]);
   
   const handleNewestClink = () => setOrder('createdAt');
@@ -26,13 +26,14 @@ function App() {
   const handleLoad = async (options) => {
     let result;
     try {
-    setIsLoding(true);
+    setIsLoading(true);
+    setLoadingError(null);
     result = await getFoods(options);
     } catch (error) {
-      console.error(error);
+      setLoadingError(error);
       return;
     } finally{
-      setIsLoding(false);
+      setIsLoading(false);
     }
     
     const { foods, paging } = result;
@@ -65,9 +66,9 @@ function App() {
       <button onClick={handlecalorieClink}>칼로리순</button>
       <FoodList items={sortedItems} onDelete={handleDelete} />
     {hasNext && (
-      <button disabled={isLoding} onClick={handleLoadMore}>더보기</button>
+      <button disabled={isLoading} onClick={handleLoadMore}>더보기</button>
     )}
-    
+    {LoadingError?.message && <span>{LoadingError.message}</span>}
     </div>
   );
 }
