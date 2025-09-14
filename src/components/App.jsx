@@ -1,6 +1,8 @@
 import { getFoods } from '../api';
 import FoodList from './FoodList';
 import { useEffect, useState } from 'react';
+import ReviewForm from './ReviewFrom';
+import SearchBar from './SearchBar';
 
 const LIMIT = 10;
 
@@ -17,6 +19,8 @@ function App() {
   
   const handleNewestClink = () => setOrder('createdAt');
   const handlecalorieClink = () => setOrder('calorie');
+
+  
   
   const handleDelete = (id) => {
     const nextItems = items.filter((item) => item.id !== id);
@@ -51,12 +55,7 @@ function App() {
     });
   }
 
-   const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    const value = e.target['search'].value;
-     setCursor('');  // 검색 시작 시 커서 초기화
-    setSearch(value);
-  };
+ 
 
   const sortedItems = items.sort((a,b) => b[order] - a[order]);
 
@@ -70,12 +69,15 @@ function App() {
 
   return (
     <div> 
+      <div>
       <button onClick={handleNewestClink}>최신순</button>
       <button onClick={handlecalorieClink}>칼로리순</button>
-      <form onSubmit={handleSearchSubmit}>
-        <input name="search" />
-        <button type="submit">검색</button>
-      </form>
+      </div>
+
+      <SearchBar search={search} setSearch={setSearch} setCursor={setCursor}/>
+      
+      <ReviewForm /> 
+     
       <FoodList items={sortedItems} onDelete={handleDelete} />
     {hasNext && (
       <button disabled={isLoading} onClick={handleLoadMore}>
