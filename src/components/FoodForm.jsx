@@ -9,7 +9,7 @@ const INTIAL_VALUES = {
         imgFile: null,
     };
 
-function FoodForm() {
+function FoodForm({ onSubmitSuccess }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submittingError, setSubmittingError ] = useState(null);
     const [values, setValues] = useState(INTIAL_VALUES);
@@ -34,17 +34,20 @@ function FoodForm() {
     formData.append('calorie', values.calorie);
     formData.append('content', values.content); 
 
+    let result;
+
     try{
         setSubmittingError(null);
         setIsSubmitting(true);
-        await createFood(formData);
+        result = await createFood(formData);
     } catch(error) {
         setSubmittingError(error);
         return;
     } finally {
         setIsSubmitting(false);
     }
-
+    const { food } = result;
+    onSubmitSuccess(food);
     setValues(INTIAL_VALUES);
   };
 

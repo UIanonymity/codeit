@@ -8,10 +8,11 @@ import SearchBar from './SearchBar';
 const LIMIT = 10;
 
 function App() {
-  
+
+  const [items, setItems] = useState([]); 
+  /* 리뷰 생성 후 받은 데이터를 해당 아이템 스테이트에 추가 시 새로고침 없이 즉시 반영가능 */ 
   const [order, setOrder] = useState('createdAt');
-  const [items, setItems] = useState([]);
-  const [cursor, setCursor] = useState('');
+   const [cursor, setCursor] = useState('');
   const [hasNext, setHasNext] = useState(false);
 // 오프셋이 아니라 커서를 사용하고 있어서 오류가 나고 있었음 api,App 파일 로직 맞춰서 수정 
   const [ isLoading, setIsLoading ] = useState(false);
@@ -21,13 +22,13 @@ function App() {
   const handleNewestClink = () => setOrder('createdAt');
   const handlecalorieClink = () => setOrder('calorie');
 
-  
-  
+  /* 삭제 이벤트 */
   const handleDelete = (id) => {
     const nextItems = items.filter((item) => item.id !== id);
     setItems(nextItems);
   }
 
+  /* 불러오기(더보기) 이벤트 + 페이지 네이션 */
   const handleLoad = async (options) => {
     let result;
     try {
@@ -57,9 +58,11 @@ function App() {
   }
 
  
-
   const sortedItems = items.sort((a,b) => b[order] - a[order]);
 
+  const handleSubmitSuccess = (food) => {
+    setItems((prevItems) => [food, ...prevItems]);
+  }
 
 /* useEffect 사용 안 하면 무한 호출에 갇히는 수가 있음 
 페이지 처음 렌더링 될때 데이터 불러와서 보여주고 싶으면 useEffect.*/
@@ -79,9 +82,8 @@ function App() {
         <SearchBar search={search} setSearch={setSearch} setCursor={setCursor}/>
         </div>
       
-      <FoodForm /> 
-     
-      <FoodList items={sortedItems} onDelete={handleDelete} />
+      < FoodForm onSubmitSuccess={handleSubmitSuccess} /> 
+      < FoodList items={sortedItems} onDelete={handleDelete} />
     {hasNext && (
       <button disabled={isLoading} onClick={handleLoadMore}>
         더보기
