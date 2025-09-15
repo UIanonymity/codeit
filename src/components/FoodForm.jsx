@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FileInput from './FileInput';
-import { createFood } from './../api';
+import { createFood } from '../api';
 
 const INTIAL_VALUES = {
         title: '',

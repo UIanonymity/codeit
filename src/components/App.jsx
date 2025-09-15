@@ -1,7 +1,7 @@
 import { getFoods } from '../api';
 import FoodList from './FoodList';
 import { useEffect, useState } from 'react';
-import FoodForm from './FoodFrom';
+import FoodForm from './FoodForm';
 import SearchBar from './SearchBar';
 
 
